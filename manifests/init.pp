@@ -35,4 +35,24 @@ class java (
     content => "export JAVA_HOME=/usr/java/default",
   }
 
+  # Remove OpenJDK 6 devel
+  package {'java-1.6.0-openjdk-devel':
+    ensure  => absent,
+  }
+  ->
+  # Remove OpenJDK 6
+  package {'java-1.6.0-openjdk':
+    ensure  => absent,
+  }
+
+  # Remove OpenJDK 7 devel
+  package {'java-1.7.0-openjdk-devel':
+    ensure  => absent,
+  }
+  ->
+  # Remove OpenJDK 7
+  package {'java-1.7.0-openjdk':
+    ensure  => absent,
+  }
+
 }
