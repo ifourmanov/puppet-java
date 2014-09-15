@@ -23,6 +23,7 @@ class java (
     provider => rpm,
     ensure   => "1.${java_major_version}.0_${java_minor_version}-fcs",
     source   => "/usr/local/$java_filename",
+    require  => Wget::Fetch['jdk'],
   }
 
   # Configure JAVA_HOME globlly.
