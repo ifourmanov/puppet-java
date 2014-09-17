@@ -26,6 +26,8 @@ class java (
     require  => Wget::Fetch['jdk'],
   }
 
+  notify { "Major Version: $java_major_version, Minor Version: $java_minor_version": }
+
   # Configure JAVA_HOME globlly.
   file { '/etc/profile.d/java.sh':
     ensure  => file,
@@ -33,6 +35,12 @@ class java (
     group   => root,
     mode    => 644,
     content => "export JAVA_HOME=/usr/java/default",
+  }
+
+  # Change latest symlink
+  file { '/usr/java/latest':
+    ensure  => 'link',
+    target  => "/usr/java/jdk1.${java_major_version}.0_${java_minor_version}" 
   }
 
   # Remove OpenJDK 6 devel
