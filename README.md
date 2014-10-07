@@ -16,8 +16,8 @@ the following to your `Puppetfile`:
 
 ```ruby
 mod "java",
-  :git => "git@github.com:MSMFG/puppet-java.git",
-  :ref => "0.0.1"
+  :git => "git@github.com:cakesolutions/puppet-java.git",
+  :ref => "0.0.3"
 ```
 
 Hiera property required:
