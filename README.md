@@ -17,12 +17,12 @@ the following to your `Puppetfile`:
 ```ruby
 mod "java",
   :git => "git@github.com:cakesolutions/puppet-java.git",
-  :ref => "0.0.3"
+  :ref => "0.0.4"
 ```
 
 Hiera property required:
 
 ```
-java::source_url: "http://download.oracle.com/otn-pub/java/jdk/7u51-b13"
+java::source_url: "http://download.oracle.com/otn-pub/java/jdk/7u67-b01"
 ```
 
