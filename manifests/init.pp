@@ -18,7 +18,7 @@ class java (
     nocheckcertificate  => true,
     verbose             => false,
   }
-
+  ->
   # Install the jdk
   package {'jdk':
     provider => rpm,
@@ -26,9 +26,7 @@ class java (
     source   => "/usr/local/$java_filename",
     require  => Wget::Fetch['jdk'],
   }
-
-  notify { "Major Version: $java_major_version, Minor Version: $java_minor_version": }
-
+  -> 
   # Configure JAVA_HOME globlly.
   file { '/etc/profile.d/java.sh':
     ensure  => file,
@@ -37,13 +35,13 @@ class java (
     mode    => 644,
     content => "export JAVA_HOME=/usr/java/default",
   }
-
+  -> 
   # Change latest symlink
   file { '/usr/java/latest':
     ensure  => 'link',
     target  => "/usr/java/jdk1.${java_major_version}.0_${java_minor_version}" 
   }
-
+  ->
   # Remove OpenJDK 6 devel
   package {'java-1.6.0-openjdk-devel':
     ensure  => absent,
@@ -53,7 +51,7 @@ class java (
   package {'java-1.6.0-openjdk':
     ensure  => absent,
   }
-
+  ->
   # Remove OpenJDK 7 devel
   package {'java-1.7.0-openjdk-devel':
     ensure  => absent,
