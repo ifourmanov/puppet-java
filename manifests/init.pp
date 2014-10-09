@@ -10,12 +10,13 @@ class java (
   include wget
   
   wget::fetch { 'jdk':
-    source      => "${source_url}/$java_filename",
-    no_cookies  => true,
-    headers     => ['Cookie: oraclelicense=accept-securebackup-cookie;'],
-    destination => "/usr/local/$java_filename",
-    timeout     => 0,
-    verbose     => false,
+    source              => "${source_url}/$java_filename",
+    no_cookies          => true,
+    headers             => ['Cookie: oraclelicense=accept-securebackup-cookie;'],
+    destination         => "/usr/local/$java_filename",
+    timeout             => 0,
+    nocheckcertificate  => true,
+    verbose             => false,
   }
 
   # Install the jdk
