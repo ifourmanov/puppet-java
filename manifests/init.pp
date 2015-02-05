@@ -1,13 +1,13 @@
-class java (  
-  $source_url = "http://download.oracle.com/otn-pub/java/jdk/7u67-b01", 
-  $java_major_version = 7, 
-  $java_minor_version = 67,
+class java (
+  $source_url = "https://download.oracle.com/otn-pub/java/jdk/7u51-b13",
+  $java_major_version = 7,
+  $java_minor_version = 51,
   ) {
- 
-  $java_filename = "jdk-${java_major_version}u${java_minor_version}-linux-x64.rpm"
 
-  # Download the jdk from location of choice
-  include wget
+  $java_filename = "jdk-${java_major_version}u${java_minor_version}-linux-x64.rpm"
+  $jdk_package_name = "jdk1.${java_major_version}.0_${java_minor_version}-1.${java_major_version}.0_${java_minor_version}-fcs.x86_64"
+
+  include ::wget
   
   wget::fetch { 'jdk':
     source              => "${source_url}/$java_filename",
@@ -18,16 +18,30 @@ class java (
     nocheckcertificate  => true,
     verbose             => false,
   }
-  ->
-  # Install the jdk
-  package {'jdk':
+
+  package {'java-1.6.0-openjdk':
+    ensure   => absent,
+  }
+
+  package {'java-1.6.0-openjdk-devel':
+    ensure  => absent,
+  }
+
+  package {'java-1.7.0-openjdk':
+    ensure   => absent,
+  }
+
+  package {'java-1.7.0-openjdk-devel':
+    ensure  => absent,
+  }
+
+  package {"$jdk_package_name":
     provider => rpm,
-    ensure   => "1.${java_major_version}.0_${java_minor_version}-fcs",
+    ensure   => installed,
     source   => "/usr/local/$java_filename",
     require  => Wget::Fetch['jdk'],
   }
-  -> 
-  # Configure JAVA_HOME globlly.
+  ->
   file { '/etc/profile.d/java.sh':
     ensure  => file,
     owner   => root,
@@ -35,31 +49,9 @@ class java (
     mode    => 644,
     content => "export JAVA_HOME=/usr/java/default",
   }
-  -> 
-  # Change latest symlink
+  ->
   file { '/usr/java/latest':
     ensure  => 'link',
     target  => "/usr/java/jdk1.${java_major_version}.0_${java_minor_version}" 
   }
-  ->
-  # Remove OpenJDK 6 devel
-  package {'java-1.6.0-openjdk-devel':
-    ensure  => absent,
-  }
-  ->
-  # Remove OpenJDK 6
-  package {'java-1.6.0-openjdk':
-    ensure  => absent,
-  }
-  ->
-  # Remove OpenJDK 7 devel
-  package {'java-1.7.0-openjdk-devel':
-    ensure  => absent,
-  }
-  ->
-  # Remove OpenJDK 7
-  package {'java-1.7.0-openjdk':
-    ensure  => absent,
-  }
-
 }
