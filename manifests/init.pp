@@ -35,7 +35,8 @@ class java (
     ensure  => absent,
   }
 
-  package {"$jdk_package_name":
+  package {'java':
+    name     => "$jdk_package_name"
     provider => rpm,
     ensure   => installed,
     source   => "/usr/local/$java_filename",
