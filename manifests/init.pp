@@ -1,7 +1,7 @@
 class java (
-  $source_url = "https://download.oracle.com/otn-pub/java/jdk/7u51-b13",
+  $source_url = "https://download.oracle.com/otn-pub/java/jdk/7u79-b15",
   $java_major_version = 7,
-  $java_minor_version = 51,
+  $java_minor_version = 79,
   ) {
 
   $java_filename = "jdk-${java_major_version}u${java_minor_version}-linux-x64.rpm"
@@ -19,26 +19,10 @@ class java (
     verbose             => false,
   }
 
-  package {'java-1.6.0-openjdk':
-    ensure   => absent,
-  }
-
-  package {'java-1.6.0-openjdk-devel':
-    ensure  => absent,
-  }
-
-  package {'java-1.7.0-openjdk':
-    ensure   => absent,
-  }
-
-  package {'java-1.7.0-openjdk-devel':
-    ensure  => absent,
-  }
-
   package {'java':
-    name     => "$jdk_package_name",
     provider => rpm,
-    ensure   => installed,
+    name     => "jdk",
+    ensure   => "1.${java_major_version}.0_${java_minor_version}-fcs",
     source   => "/usr/local/$java_filename",
     require  => Wget::Fetch['jdk'],
   }
@@ -51,8 +35,9 @@ class java (
     content => "export JAVA_HOME=/usr/java/default",
   }
   ->
-  file { '/usr/java/latest':
-    ensure  => 'link',
-    target  => "/usr/java/jdk1.${java_major_version}.0_${java_minor_version}" 
+  exec { 'update-java-alternatives':
+    path    => "/bin:/usr/bin:/usr/sbin",
+    command => "alternatives --install /usr/bin/java java /usr/java/jdk1.${java_major_version}.0_${java_minor_version}/bin/java 200000",
+    unless  => "[ `java -version 2>&1 | grep 'java version' | awk '{print \$3}' | sed s'/\"//g'` == '1.${java_major_version}.0_${java_minor_version}' ]"
   }
 }
