@@ -38,6 +38,6 @@ class java (
   exec { 'update-java-alternatives':
     path    => "/bin:/usr/bin:/usr/sbin",
     command => "alternatives --install /usr/bin/java java /usr/java/jdk1.${java_major_version}.0_${java_minor_version}/bin/java 200000",
-    unless  => "[ `java -version 2>&1 | grep 'java version' | awk '{print \$3}' | sed s'/\"//g'` == '1.${java_major_version}.0_${java_minor_version}' ]"
+    unless  => "[ `ls -l /etc/alternatives/java | awk '{print \$11}'` == '/usr/java/jdk1.${java_major_version}.0_${java_minor_version}/bin/java' ]"
   }
 }
