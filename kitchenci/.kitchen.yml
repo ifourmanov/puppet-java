@@ -1,0 +1,16 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: puppet_apply
+  puppet_version: "3.8.1"
+  mainfests_path: manifests
+  modules_path: modules
+
+platforms:
+  {platform-placeholder}
+
+suites:
+  - name: default
+    manifest: site.pp
