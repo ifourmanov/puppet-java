@@ -1,0 +1,16 @@
+---
+driver:
+  name: {driver}
+
+provisioner:
+  name: puppet_apply
+  puppet_version: {puppet_version}
+  mainfests_path: manifests
+  modules_path: modules
+
+platforms:
+  {platforms}
+
+suites:
+  - name: default
+    manifest: site.pp
