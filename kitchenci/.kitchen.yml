@@ -1,15 +1,15 @@
 ---
 driver:
-  name: docker
+  name: {driver}
 
 provisioner:
   name: puppet_apply
-  puppet_version: "3.8.1"
+  puppet_version: {puppet_version}
   mainfests_path: manifests
   modules_path: modules
 
 platforms:
-  {platform-placeholder}
+  {platforms}
 
 suites:
   - name: default
