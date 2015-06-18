@@ -19,6 +19,10 @@ describe file('/etc/profile.d/java.sh') do
 	it { should be_grouped_into 'root' }
 end
 
+describe command('alternatives --display java') do
+	its(:stdout) { should contain('link currently points to /usr/java/jdk1.7.0_79/bin/java') }
+	its(:stdout) { should contain('/usr/java/jdk1.7.0_79/bin/java - priority 200000') }
+end
 describe file('/usr/java/latest') do
 	it { should be_symlink }
 	it { should be_linked_to '/usr/java/jdk1.7.0_79' }
