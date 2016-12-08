@@ -1,6 +1,6 @@
 name 'puppet-java'
 version '0.0.6'
-source 'git@github.com:cakesolutions/puppet-java.git'
+source 'git@github.com:ifourmanov/puppet-java.git'
 author 'Cake Team'
 license 'MIT License'
 summary 'Java Puppet Module'
