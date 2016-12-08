@@ -22,7 +22,7 @@ class java (
 
   package {'java':
     ensure   => "1.${java_major_version}.0_${java_minor_version}-fcs",
-    provider => rpm,
+    provider => apt,
     name     => 'jdk',
     source   => "/usr/local/${java_filename}",
     require  => Wget::Fetch['jdk'],
